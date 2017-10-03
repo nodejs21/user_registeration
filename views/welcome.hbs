@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Welcome</title>
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
+</head>
+<body>
+	<article id="welcome">
+	<h1>Welcome <span>{{screamIt fname}}</span></h1>
+	<p>An email has been sent to <span>{{email}}</span></p>
+	{{> footer}}
+	{{! This comment will not be in the output }}
+  	<!-- This comment will be in the output -->
+	</article>
+</body>
+</html>
