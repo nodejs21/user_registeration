@@ -34,6 +34,9 @@ hbs.registerHelper('getCurrentYear', () => {
 });
 
 hbs.registerHelper('screamIt', (text) => {
+    if(!text) {
+        text = "to the test"
+    }
     return text.toUpperCase();
 });
 
