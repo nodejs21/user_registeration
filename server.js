@@ -13,17 +13,17 @@ var app = express();
 app.set('view engine', 'hbs');
 hbs.registerPartials(__dirname + '/views/partials');
 app.use(express.static(__dirname + "/assets"));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(bodyParser.json());
 
-app.use((req, res, next) => {
-    var now = new Date();
-    var log = `${now}: ${req.method} ${req.url}`;
-    fs.appendFile('server.log', log + '\n', (err) => {
-        console.log("Error: ", err);
-    });
-    next();
-});
+// app.use((req, res, next) => {
+//     var now = new Date();
+//     var log = `${now}: ${req.method} ${req.url}`;
+//     fs.appendFile('server.log', log + '\n', (err) => {
+//         console.log("Error: ", err);
+//     });
+//     next();
+// });
 
 hbs.registerHelper('getCurrentDate', () => {
     return new Date();
