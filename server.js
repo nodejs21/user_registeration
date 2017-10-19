@@ -40,9 +40,24 @@ hbs.registerHelper('screamIt', (text) => {
     return text.toUpperCase();
 });
 
+hbs.registerHelper('email_msg', (email) => {
+	if(!email){
+		return null;
+	}
+	return "An email has been sent to ";
+});
+
 app.get('/', (req, res) => {
     res.render('welcome.hbs');
-})
+});
+
+app.get('/users', (req, res) => {
+	User.find().then((users) => {
+    	res.json(users);
+	}), (err) => {
+		res.send('No users found!!');
+	};
+});
 
 app.get('/registeration', (req, res) => {
 	res.render('index.hbs');

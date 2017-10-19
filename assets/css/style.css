@@ -147,5 +147,27 @@ body {
 	color: white;
 }
 
+.btn_signup {
+	float: right;
+	border: none;
+	color: black;
+	background-color: transparent;
+	padding: 16px 32px;
+	text-align: center;
+	font-size: 16px;
+	margin: 4px 2px;
+	transition-duration: 0.4s;
+	cursor: pointer;
+	letter-spacing: 0.1em;
+	text-shadow: 1px 1px 5px white;
+}
+
+.btn_signup:hover {
+	font-size: 17px;
+	letter-spacing: 0.2em;
+	color: white;
+	text-shadow: 1px 1px 2px white, 0 0 25px blue, 0 0 5px darkblue;
+}
+
 
 

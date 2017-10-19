@@ -1,16 +1,29 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Welcome</title>
-	<link rel="stylesheet" type="text/css" href="/css/style.css">
+    <title>Welcome</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link rel="javascript" href="/js/index.js">
 </head>
 <body>
-	<article id="welcome">
-	<h1>Welcome <span>{{screamIt fname}}</span></h1>
-	<p>An email has been sent to <span>{{email}}</span></p>
-	{{> footer}}
-	{{! This comment will not be in the output }}
-  	<!-- This comment will be in the output -->
-	</article>
+
+<header>
+    <button class="btn_signup" value="btn_signup" onclick="show_form()">Signup</button>
+</header>
+
+<article id="welcome">
+    <h1>Welcome <span>{{screamIt fname}}</span></h1>
+    <p>{{email_msg email}}<span>{{email}}</span></p>
+    {{> footer}}
+    {{! This comment will not be in the output }}
+    <!-- This comment will be in the output -->
+
+</article>
+
+<script>
+    function show_form() {
+        window.location.href = '/registeration';
+    }
+</script>
 </body>
 </html>
