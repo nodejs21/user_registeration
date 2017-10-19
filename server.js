@@ -3,6 +3,7 @@ const express = require('express');
 const hbs = require('hbs');
 const bodyParser = require('body-parser');
 const fs = require('fs');
+const {ObjectID} = require('mongodb');
 
 const {mongoose} = require('./db/mongoose.js');
 const {User} = require('./models/user.js');
@@ -57,6 +58,20 @@ app.get('/users', (req, res) => {
 	}), (err) => {
 		res.send('No users found!!');
 	};
+});
+
+app.get('/users/:id', (req, res) => {
+	var id = req.params.id;
+	if(!ObjectID.isValid(id)) {
+		return res.send(500).send("User id is invalid!");
+	}
+	User.findById(id).then((user) => {
+		if(!user) {
+			return res.send("No user found against: "+id);
+		}
+		return res.json(user);
+	})
+	console.log("Id: "+id+ " Typeof id: "+ typeof id);
 });
 
 app.get('/registeration', (req, res) => {
