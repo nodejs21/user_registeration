@@ -81,21 +81,26 @@ app.get('/registeration', (req, res) => {
 });
 
 app.post('/registeration', (req, res) => {
-	var user = new User({
-		fname: req.body.fname,
-		lname: req.body.lname,
-		phone: req.body.phone,
-		address: req.body.address,
-		email: req.body.email,
-		password: req.body.pass
-	});
+    var picked = _.pick(req.body, ['fname', 'lname', 'phone', 'address', 'email', 'pass']);
+    var body = _.mapKeys(picked, (value, key) => {
+        if(key === "pass") {
+            return key = "password";
+        }
+        return key;
+    });
+    // console.log("This is picked body:");
+    // console.log(body);
+	var user = new User(body);
+    // console.log("This is user to be sent in db");
+	// console.log(user);
 	user.save().then((doc)=> {
 		res.render('welcome.hbs', {
 			fname: req.body.fname,
 			email: req.body.email
 		});
 	}, (err) => {
-		res.status(400).send(err);
+		console.log("\n"+err);
+		res.status(400).send("Error from POST method /registeration\n\n"+err);
 	});
 });
 
@@ -119,7 +124,13 @@ app.patch('/users/:id', (req, res) => {
 	if(!ObjectID.isValid(id)) {
 		return res.status(500).send("Invalid user id!");
 	}
-	var body = _.pick(req.body, ['fname', 'lname', 'phone', 'address', 'email', 'password']);
+	var picked = _.pick(req.body, ['fname', 'lname', 'phone', 'address', 'email', 'pass']);
+	var body = _.mapKeys(picked, (value, key) => {
+		if(key === "pass") {
+			return key = "password";
+		}
+		return key;
+	});
 	User.findByIdAndUpdate(id, {$set: body}, {new: true}).then((user) => {
 		if(!user) {
             return res.status(400).send("No such user found!");
