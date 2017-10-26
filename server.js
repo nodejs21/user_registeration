@@ -4,6 +4,7 @@ const hbs = require('hbs');
 const bodyParser = require('body-parser');
 const fs = require('fs');
 const {ObjectID} = require('mongodb');
+const _ = require('lodash');
 
 const {mongoose} = require('./db/mongoose.js');
 const {User} = require('./models/user.js');
@@ -63,15 +64,16 @@ app.get('/users', (req, res) => {
 app.get('/users/:id', (req, res) => {
 	var id = req.params.id;
 	if(!ObjectID.isValid(id)) {
-		return res.send(500).send("User id is invalid!");
+		return res.status(500).send("User id is invalid!");
 	}
 	User.findById(id).then((user) => {
 		if(!user) {
 			return res.send("No user found against: "+id);
 		}
 		return res.json(user);
-	})
-	console.log("Id: "+id+ " Typeof id: "+ typeof id);
+	}).catch((e) => {
+		res.status(400).send("some error from /users/:id\n"+e);
+	});
 });
 
 app.get('/registeration', (req, res) => {
@@ -94,6 +96,37 @@ app.post('/registeration', (req, res) => {
 		});
 	}, (err) => {
 		res.status(400).send(err);
+	});
+});
+
+app.delete('/users/:id', (req, res) => {
+	var id = req.params.id;
+	if(!ObjectID.isValid(id)) {
+		return res.status(500).send("Invalid user id!");
+	}
+	User.findByIdAndRemove(id).then((user) => {
+		if(!user) {
+			return res.status(400).send("No such user found!");
+		}
+		res.send(user);
+	}).catch((e) => {
+		res.status(400).send("error from delete method, /users/id"+e);
+	});
+});
+
+app.patch('/users/:id', (req, res) => {
+	var id = req.params.id;
+	if(!ObjectID.isValid(id)) {
+		return res.status(500).send("Invalid user id!");
+	}
+	var body = _.pick(req.body, ['fname', 'lname', 'phone', 'address', 'email', 'password']);
+	User.findByIdAndUpdate(id, {$set: body}, {new: true}).then((user) => {
+		if(!user) {
+            return res.status(400).send("No such user found!");
+		}
+		res.send({user});
+	}).catch((e) => {
+        res.status(400).send("error from patch method, /users/id"+e);
 	});
 });
 
