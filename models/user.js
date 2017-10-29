@@ -37,9 +37,9 @@ var User = mongoose.model('User', {
 		}
 	},
 	password: {
-		type: String,
-		required: true,
-		minlength: 6
+		type: String
+		// required: true,	//commented because of mobile version developed by Saiem
+		// minlength: 6		//commented because of mobile version developed by Saiem
 	},
 	tokens: [{
 		access: {
